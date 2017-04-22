@@ -1,0 +1,314 @@
+*{
+	border: none;
+	margin: 0px;
+	padding: 0px;
+	box-sizing: border-box;
+}
+
+h1{
+	display: inline-block;
+}
+
+body{
+	font-family: sans;
+	color: #FFFFFF;
+	background-color: #222222;
+}
+
+h2{
+	font-size: 20px;
+	font-weight: 200;
+	margin: 4px;
+}
+
+p{
+	margin-bottom: 15px;
+}
+
+textarea,
+div [contenteditable="true"]{
+	font-size: 14px;
+	border: 1px #DDDDDD solid;
+	outline: none;
+	background-color: #FFFFFF;
+	white-space: pre;
+	overflow-y: auto;
+	font-family: "Courier New", monospace;
+	box-sizing: border-box;
+	resize: none; 
+}
+
+textarea:hover, textarea:active, textarea:focus,
+div [contenteditable="true"]:hover, div [contenteditable="true"]:active, div [contenteditable="true"]:focus{
+	border-color: #AAAAAA;
+}
+
+button,
+.fileLabel,
+select{	
+	background: none;
+	background-image: linear-gradient(to bottom, #888888, #666666);
+	border: 1px #222222 outset;
+	color: #FFFFFF;
+	cursor: pointer;
+	padding: 3px;
+}
+
+button:hover,
+select:hover,
+.fileLabel:hover{
+	background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.6), rgba(180, 180, 180, 0.5));
+	border: 1px rgba(0, 0, 0, 0.6) outset;
+}
+
+button:active,
+select:active,
+.fileLabel:active{
+	background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.6), rgba(180, 180, 180, 0.8));
+	border: 1px rgba(0, 0, 0, 0.8) outset;
+	outline: none;
+}
+
+button:focus,
+select:focus,
+.fileLabel:focus{
+	outline: none;
+}
+
+option,
+optgroup{
+	background-color: #555555;
+	font-size: 16px;
+	border-color: #BBBBBB
+}
+
+input[type="text"],
+input[type="number"]{
+	border: 1px #DDDDDD solid;
+	outline: none;
+	height: 15px;
+	padding: 2px;
+	font-family: "Courier New", monospace;
+}
+
+input[type="text"]:hover, input[type="text"]:active, input[type="text"]:focus,
+input[type="number"]:hover, input[type="number"]:active, input[type="number"]:focus{
+	border-color: #AAAAAA;
+}
+
+input[type="file"]{
+	visibility: hidden;
+}
+
+hr{
+	border-top: 1px #888888 solid;
+	margin-top: 0px;
+	margin-bottom: 5px;
+}
+
+select{
+	height: 30px;
+    width: 200px;
+}
+
+label.fancyRadio{
+	background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.2));
+	border: 1px #222222 solid;
+	cursor: pointer;
+	box-sizing: border-box;
+	margin: 0px;
+	display: inline-block;
+}
+
+label.fancyRadio:hover{
+	background-color: #666666;
+}
+
+input[type="radio"].fancyRadio{
+	display: none;
+}
+
+input[type="radio"]:checked + label.fancyRadio{
+	background-image: none;
+	background-color: #606060;
+}
+
+div.fancyRadio{
+	
+}
+
+@font-face {
+    font-family: 'dejavusans';
+    src: url('DejaVuSans-ExtraLight-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body *{
+	font-family: dejavusans, DejaVu Sans, Helvetica, sans-serif;
+}
+
+
+/* ============== */
+
+h1{
+	font-weight: 200;
+	padding: 0px 10px;
+	display: block;
+	height: 40px;
+}
+
+.generator{
+	background-color: #444444;
+	border: 1px #000000 solid;
+	padding: 10px;
+	margin: 10px;
+
+	display: flex;
+}
+
+.generator > div{
+	display: block;
+}
+
+#waveformSelect{
+	
+}
+
+#waveformSelect > label{
+	padding: 5px;
+	text-align: center;
+	width: 90px;
+	height: 90px;
+}
+
+#waveformSelect > label > img{
+	height: 60px;
+	width: 60px;
+	display: inline-block;
+	margin-bottom: -7px;
+	margin-top: -3px;
+}
+
+#loadImages{
+	display: none;
+}
+
+#mainControls{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin-right: 10px;
+}
+
+#startButton{
+	width: 100px;
+	height: 40px;
+	margin-bottom: 10px;
+	background-image: linear-gradient(to bottom, #338833, #226622);
+	font-size: 25px;
+	font-weight: 300;
+	line-height: 0px;
+	text-shadow: 1px 1px 0px #000000;
+	padding-bottom: 7px;
+
+	animation-duration: 1s;
+	animation-name: ridiculouslyFancyStartButtonAnimationImeanSeriouslyLookAtThisShit;
+	animation-timing-function: linear;
+}
+
+@keyframes ridiculouslyFancyStartButtonAnimationImeanSeriouslyLookAtThisShit{
+
+	0% {
+		box-shadow: 0px 0px 30px rgba(255, 255, 255, 0.4);
+	}
+
+	100% {
+		margin-left: 0%;
+		box-shadow: 0px 0px 0px rgba(255, 255, 255, 0);
+	}
+}
+
+#startButton:hover{
+	background-image: linear-gradient(to bottom, #55CC55, #448844);
+}
+
+#startButton.stop{
+	background-image: linear-gradient(to bottom, #883333, #662222);
+}
+
+#startButton.stop:hover{
+	background-image: linear-gradient(to bottom, #CC5555, #884444);
+}
+
+#volumeContainer{
+	background-color: #333333;
+	display: flex;
+}
+
+#volumeContainer>input{
+	margin-right: 10px;
+	margin-left: 5px;
+	flex-grow: 1;
+}
+
+#mute{
+	position: relative;
+	height: 40px;
+	width: 50px;
+	background-image: none;
+	border: none;
+}
+
+#mute:hover{
+	background-color: #666666;
+}
+
+#mute > img{
+	position: absolute;
+	top: 2px;
+	left: 12px;
+	height: 34px;
+	width: 34px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

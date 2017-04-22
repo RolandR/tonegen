@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>
+			Tone Generator
+		</title>
+		<link href="./style.css" rel="stylesheet" type="text/css" media="all">
+	</head>
+	<body>
+
+		<h1>Tone Generator</h1>
+
+		<div class="generator">
+
+			<div id="mainControls">
+				<button id="startButton">
+					<span>Start</span>
+				</button>
+				
+				<div id="volumeContainer">
+					<button id="mute">
+						<image id="volumeImg" src="./img/volume-full.svg" alt="">
+						<image id="muteImg"   src="./img/volume-muter.svg" alt="">
+					</button>
+					<input type="range" min="0" max="1" step="0.01" id="volume">
+				</div>
+			</div>
+
+			<div>
+				<div class="fancyRadio" id="waveformSelect">
+					<input class="fancyRadio" type="radio" value="sine" name="colorToHighlight" id="wave-sine" checked>
+					<label class="fancyRadio" for="wave-sine">
+						<img src="./img/sine.svg" alt="Sine" title="Sine wave">
+						<span>Sine</span>
+					</label>
+					<input class="fancyRadio" type="radio" value="square" name="colorToHighlight" id="wave-square">
+					<label class="fancyRadio" for="wave-square">
+						<img src="./img/square.svg" alt="Square" title="Square wave">
+						<span>Square</span>
+					</label>
+					<input class="fancyRadio" type="radio" value="sawtooth" name="colorToHighlight" id="wave-sawtooth">
+					<label class="fancyRadio" for="wave-sawtooth">
+						<img src="./img/sawtooth.svg" alt="Sawtooth" title="Sawtooth wave">
+						<span>Sawtooth</span>
+					</label>
+					<input class="fancyRadio" type="radio" value="triangle" name="colorToHighlight" id="wave-triangle">
+					<label class="fancyRadio" for="wave-triangle">
+						<img src="./img/triangle.svg" alt="Triangle" title="Triangle wave">
+						<span>Triangle</span>
+					</label>
+				</div>
+			</div>
+
+			<div>
+				<label for="frequency">Frequency</label>
+				<input type="range" min="20" max="15000" step="0.5" id="frequency">
+			</div>
+
+			
+		</div>
+
+		<div id="loadImages">
+			<image src="./img/volume-full.svg" alt="">
+			<image src="./img/volume-med.svg" alt="">
+			<image src="./img/volume-low.svg" alt="">
+			<image src="./img/volume-none.svg" alt="">
+			<image src="./img/volume-muter.svg" alt="">
+		</div>
+
+		
+	<script type="text/javascript" src="./tonegen.js"></script>
+	</body>
+</html>
+
