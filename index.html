@@ -27,7 +27,8 @@
 				</div>
 			</div>
 
-			<div>
+			<div id="waveControls">
+				<h2>Waveform</h2>
 				<div class="fancyRadio" id="waveformSelect">
 					<input class="fancyRadio" type="radio" value="sine" name="colorToHighlight" id="wave-sine" checked>
 					<label class="fancyRadio" for="wave-sine">
@@ -52,15 +53,24 @@
 				</div>
 			</div>
 
-			<div id="frequencyControls">
-				<div id="gaugeContainer">
-					<canvas id="frequencyGauge" height="60" width="1000"></canvas>
-					<div id="frequencyMarker"></div>
+			<div>
+				<h2>Frequency</h2>
+				<div id="frequencyControls">
+					<div id="gaugeContainer">
+						<canvas id="frequencyGauge" height="60" width="1000"></canvas>
+						<div id="frequencyMarker"></div>
+					</div>
+					<div id="frequencyTextContainer">
+						<input type="text" step="1" id="frequencyText">
+						<span id="hertzLabel"> Hz</span>
+					</div>
 				</div>
-				<div id="frequencyTextContainer">
-					<input type="text" step="1" id="frequencyText">
-					<span id="hertzLabel"> Hz</span>
-				</div>
+			</div>
+
+			<div>
+				<h2>Scope</h2>
+				<canvas id="scopeCanvas" height="200" width="200"></canvas>
+				<canvas id="scopeBackground" height="200" width="200"></canvas>
 			</div>
 
 			

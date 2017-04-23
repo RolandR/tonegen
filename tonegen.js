@@ -35,9 +35,161 @@ function toneGen(){
 		gain.gain.value = 0;
 	}
 
+	var analyser = audio.createAnalyser();
+
 	audio.suspend();
 	oscillator.connect(gain);
-	gain.connect(audio.destination);
+	gain.connect(analyser);
+	analyser.connect(audio.destination);
+
+	var scopeCanvas = document.getElementById("scopeCanvas");
+	var scopeContext = scopeCanvas.getContext("2d");
+
+	initScope();
+	var lastSize = 0;
+
+	function initScope(){
+		renderScope();
+	}
+
+	function renderScopeBackground(bufferLength){
+
+		var backgroundCanvas = document.getElementById("scopeBackground");
+		var backgroundContext = backgroundCanvas.getContext("2d");
+
+		backgroundContext.clearRect(0, 0, backgroundCanvas.width, backgroundCanvas.height);
+		
+		backgroundContext.strokeStyle = '#444444';
+		backgroundContext.fillStyle = '#777777';
+		
+		backgroundContext.textAlign = "center";
+		backgroundContext.textBaseline = "bottom";
+		backgroundContext.font = "11px monospace";
+
+		var nano = 0.000000001;
+		var micro = 0.000001;
+		var milli = 0.001;
+
+		/*var foo = (bufferLength/audio.sampleRate).toPrecision(1);
+		var bar = Math.pow(10, Math.ceil(Math.log10(foo)));
+		var baz = foo/bar;
+		var qux = Math.ceil((baz*10)/4)/10*4;
+		console.log(foo, bar, baz, qux);*/
+
+		var hLineCount = 8;
+
+		var first = ((1/hLineCount)*bufferLength)/audio.sampleRate;
+		var magnitude = Math.pow(10, Math.ceil(Math.log10(first.toPrecision(1))));
+		//magnitude = magnitude.toPrecision(1);
+		//console.log(first/magnitude);
+		//console.log(Math.ceil((first/magnitude*2))/2);
+		var step = (Math.ceil((first/magnitude*2))/2) * magnitude;
+		var maxTime = bufferLength/audio.sampleRate;
+
+		if(step/maxTime > 0.25){
+			step = step / 2;
+		}
+		
+		//console.log(hLineCount, bufferLength, audio.samplingRate);
+		for (var i = 0; i < hLineCount; i++) {
+			//var x = ((i+1)/(hLineCount)) * backgroundCanvas.width;
+			var x = (((i+1)*step)/maxTime)*backgroundCanvas.width;
+			x = ~~x+0.5;
+			
+			backgroundContext.beginPath();
+			backgroundContext.moveTo(x, 0);
+			backgroundContext.lineTo(x, backgroundCanvas.height);
+			backgroundContext.stroke();
+
+			if(i%2 == 0 && x < backgroundCanvas.width - 15){
+				backgroundContext.clearRect(
+					x-1,
+					backgroundCanvas.height-15,
+					2,
+					15
+				);
+
+				var time = (i+1)*step;
+
+				if(time < nano*1000){
+					time = parseFloat((time/nano).toPrecision(2)) + "ns";
+				} else if(time < micro*1000){
+					time = parseFloat((time/micro).toPrecision(2)) + "μs";
+				} else if(time < milli*1000){
+					time = parseFloat((time/milli).toPrecision(2)) + "ms";
+				} else {
+					time = parseFloat((time).toPrecision(2)) + "s";
+				}
+				
+				backgroundContext.fillText(
+					time,
+					x-1,
+					backgroundCanvas.height
+				);
+			}
+		}
+		
+		var vLineCount = 5;
+		for(var i = 0; i < vLineCount; i++){
+			var y = ((i+1)/(vLineCount+1)) * backgroundCanvas.height;
+			y = ~~y+0.5;
+
+			if(i == Math.floor(vLineCount/2)){
+				backgroundContext.strokeStyle = '#CCCCCC';
+			} else {
+				backgroundContext.strokeStyle = '#777777';
+			}
+			
+			backgroundContext.beginPath();
+			backgroundContext.moveTo(0, y);
+			backgroundContext.lineTo(backgroundCanvas.width, y);
+			backgroundContext.stroke();
+		}
+	}
+
+
+	function renderScope(){
+
+		var size = Math.pow(2, Math.ceil(Math.log2((1/frequency)*100000)));
+		analyser.fftSize = Math.min(Math.max(32, size), 32768);
+		var bufferLength = analyser.frequencyBinCount;
+		var analyserData = new Uint8Array(bufferLength);
+
+		if(size != lastSize){
+			renderScopeBackground(bufferLength);
+			console.log("foo!");
+			lastSize = size;
+		}
+
+		analyser.getByteTimeDomainData(analyserData);
+		
+		scopeContext.clearRect(0, 0, scopeCanvas.width, scopeCanvas.height);
+
+		var sliceWidth = scopeCanvas.width * 1.0 / bufferLength;
+		var x = 0;
+
+		scopeContext.beginPath();
+		for (var i = 0; i < bufferLength; i++) {
+
+			var v = analyserData[i] / 128.0;
+			var y = v * scopeCanvas.height / 2;
+			y = ~~y+0.5;
+
+			if (i === 0) {
+				scopeContext.moveTo(x, y);
+			} else {
+				scopeContext.lineTo(x, y);
+			}
+
+			x += sliceWidth;
+		}
+
+		scopeContext.strokeStyle = 'rgb(0, 255, 0)';
+		
+		scopeContext.stroke();
+
+		requestAnimationFrame(renderScope);
+	}
 
 	function initUi(){
 
@@ -127,7 +279,7 @@ function toneGen(){
 		function initFrequencyGauge(){
 			
 			var min = 1;
-			var max = 24000;
+			var max = audio.sampleRate/2;
 			var span = max-min;
 			var totalPixelsWidth = 2200;
 			var exponent = 10;

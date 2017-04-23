@@ -169,10 +169,32 @@ h1{
 
 .generator > div{
 	display: block;
+	border-right: 1px #999999 solid;
+	padding: 0px 10px;
+	margin-top: 30px;
+}
+
+.generator > div > h2{
+	display: block;
+	margin-top: -35px;
+	margin-left: -15px;
+	text-align: left;
+	font-size: 20px;
+	height: 30px;
+	position: absolute;
+}
+
+#waveControls{
+	
 }
 
 #waveformSelect{
-	
+	display: flex;
+	width: 190px;
+	flex-wrap: wrap;
+	height: 190px;
+	justify-content: space-between;
+	align-content: space-between;
 }
 
 #waveformSelect > label{
@@ -198,7 +220,6 @@ h1{
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	margin-right: 10px;
 }
 
 #startButton{
@@ -280,7 +301,6 @@ h1{
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	margin-left: 10px;
 }
 
 #gaugeContainer{
@@ -333,6 +353,19 @@ h1{
 
 #frequencyText:hover{
 	background-color: #666666;
+}
+
+#scopeBackground{
+	position: relative;
+	z-index: 0;
+	background-color: #333333;
+	border: 1px #000000 solid;
+}
+
+#scopeCanvas{
+	position: absolute;
+	z-index: 10;
+	border: 1px #000000 solid;
 }
 
 
