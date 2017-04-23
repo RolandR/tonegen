@@ -53,9 +53,12 @@
 			</div>
 
 			<div id="frequencyControls">
-				<canvas id="frequencyGauge" height="60" width="1000"></canvas>
-				<div>
-					<input type="text" id="frequencyText">
+				<div id="gaugeContainer">
+					<canvas id="frequencyGauge" height="60" width="1000"></canvas>
+					<div id="frequencyMarker"></div>
+				</div>
+				<div id="frequencyTextContainer">
+					<input type="text" step="1" id="frequencyText">
 					<span id="hertzLabel"> Hz</span>
 				</div>
 			</div>

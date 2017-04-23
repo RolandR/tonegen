@@ -279,12 +279,30 @@ h1{
 	margin-left: 10px;
 }
 
-#frequencyGauge{
+#gaugeContainer{
+	width: 300px;
+	overflow: hidden;
 	background-color: #333333;
 	cursor: col-resize;
+	position: relative;
 }
 
-#frequencyControls > div{
+#frequencyGauge{
+	position: relative;
+	left: 0px;
+}
+
+#frequencyMarker{
+	height: 100%;
+	width: 1px;
+	background-color: #00FF00;
+	position: absolute;
+	left: 50%;
+	top: 0px;
+	z-index: 100;
+}
+
+#frequencyTextContainer{
 	padding-left: 80px;
 }
 
@@ -297,7 +315,7 @@ h1{
 }
 
 #frequencyText{
-	text-align: center;
+	text-align: right;
 	background-color: #444444;
 	color: #FFFFFF;
 	border: 1px #333333 solid;
