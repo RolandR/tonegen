@@ -284,27 +284,32 @@ h1{
 	cursor: col-resize;
 }
 
-#frequencyControls > input{
+#frequencyControls > div{
+	padding-left: 80px;
+}
+
+#frequencyText,
+#hertzLabel{
+	font-family: monospace;
+	font-size: 16px;
+	width: 80px;
+	display: inline-block;
+}
+
+#frequencyText{
 	text-align: center;
 	background-color: #444444;
 	color: #FFFFFF;
-	border: none;
-	padding: 9px 0px;
+	border: 1px #333333 solid;
+	background-color: #555555;
+	padding: 8px 3px;
+	height: 25px;
 	margin: 3px 0px;
 }
 
-#frequencyControls > input:hover{
+#frequencyText:hover{
 	border: 1px #777777 solid;
-	padding: 8px 0px;
 }
-
-#frequencyControls > input:focus{
-	border: 1px #777777 solid;
-	padding: 8px 0px;
-	background-color: #333333;
-}
-
-
 
 
 
