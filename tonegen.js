@@ -198,8 +198,6 @@ function toneGen(){
 			var minorLinesCount = 100;
 			var linesToDraw = Math.ceil((Math.log10(max) - Math.log10(min))*minorLinesCount);
 
-			console.log(linesToDraw);
-
 			context.strokeStyle = "#555555";
 			context.fillStyle = "#CCCCCC";
 			context.textAlign = "center";
@@ -221,7 +219,6 @@ function toneGen(){
 				context.strokeStyle = "#555555";
 
 				var firstDigit = Math.round(value*10/order);
-				console.log(order, value, firstDigit);
 				var five = firstDigit%5 == 0;
 				var y = 5;
 				if(five){
@@ -268,8 +265,6 @@ function toneGen(){
 
 			var majorLinesCount = 10;
 			var linesToDraw = Math.ceil((Math.log10(max) - Math.log10(min))*majorLinesCount);
-
-			console.log(linesToDraw);
 
 			for(var i = 0; i < linesToDraw; i++){
 				var order = Math.pow(10, Math.floor(i/(majorLinesCount)));
