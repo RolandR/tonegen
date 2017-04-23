@@ -126,17 +126,23 @@ function toneGen(){
 
 		function initFrequencyGauge(){
 			var hzPerPixel = 1;
+
+			var min = 0;
+			var max = 24000;
+			var span = max-min;
+			var totalPixelsWidth = 2000;
+			var exponent = 10;
 			
-			updateFrequencyGauge(hzPerPixel);
+			updateFrequencyGauge(hzPerPixel, min, max, totalPixelsWidth, exponent);
 			var dragging = false;
 			var startX = 0;
 			var startFreq = 0;
 
 			frequencyInput.addEventListener("input", function(e){
 				frequency = parseFloat(this.value);
-				frequency = Math.max(Math.min(frequency, 24000), 0);
+				frequency = Math.max(Math.min(frequency, 24000), 1);
 				
-				updateFrequencyGauge(hzPerPixel);
+				updateFrequencyGauge(hzPerPixel, min, max, totalPixelsWidth, exponent);
 				oscillator.frequency.value = frequency;
 			});
 
@@ -150,8 +156,15 @@ function toneGen(){
 				if(dragging){
 					var offset = startX - e.clientX;
 					
-					frequency = Math.max(Math.min(startFreq + offset, 24000), 0);
-					updateFrequencyGauge(hzPerPixel);
+					frequency = Math.pow(offset/totalPixelsWidth + Math.pow(startFreq/span, 1/exponent), exponent)*span;
+					if(frequency > 100){
+						frequency = Math.round(frequency);
+					} else {
+						frequency = Math.round(frequency*10)/10;
+					}
+					frequency = Math.min(Math.max(frequency, 1), max);
+					
+					updateFrequencyGauge(hzPerPixel, min, max, totalPixelsWidth, exponent);
 					oscillator.frequency.value = frequency;
 
 					e.preventDefault();
@@ -165,16 +178,114 @@ function toneGen(){
 
 		}
 
-		function updateFrequencyGauge(hzPerPixel){
+		function updateFrequencyGauge(hzPerPixel, min, max, totalPixelsWidth, exponent){
 
 			frequencyInput.value = frequency;
+
+			if(frequency <= 100 && frequencyInput.value.slice(-2, -1) != "."){
+				frequencyInput.value += ".0";
+			}
 			
 			var gauge = document.getElementById("frequencyGauge");
 			var context = gauge.getContext("2d");
 
 			context.clearRect(0, 0, gauge.width, gauge.height);
 			
-			var majorLinesEvery = 25;
+			var span = max-min;
+
+			var relative = Math.pow(frequency/span, 1/exponent);
+
+			context.lineWidth = 1;
+			context.strokeStyle = "#555555";
+
+			context.fillStyle = "#CCCCCC";
+
+			context.textAlign = "center";
+			context.textBaseline = "hanging";
+			context.font = "10px monospace";
+
+			//console.log(Math.floor(Math.log10(frequency)));
+
+			var last = 0;
+			
+			for(var i = 0; i < gauge.width; i++){
+				var foo = (i-gauge.width/2) / totalPixelsWidth + relative;
+				var freq = (Math.pow(foo, exponent))*span;
+				//console.log((i-gauge.width/2), freq, relative, foo, Math.abs(Math.floor(freq/100)*100 - last));
+
+				if(freq < 1 || freq > 24000){
+					continue;
+				}
+
+				var exp = Math.floor(Math.log10(freq));
+				//var round = Math.log10(freq);
+				
+				var round = Math.log10(Math.floor(freq/Math.pow(10, exp))*Math.pow(10, exp));
+
+				var firstDigit = Math.round((Math.pow(exponent, round) / Math.pow(exponent, exp)));
+				//console.log(firstDigit);
+				var even = firstDigit%2 == 0;
+				var y = 20;
+				if(even){
+					y = 35;
+				}
+				
+				if(firstDigit == 1){
+					y = 35;
+					context.strokeStyle = "#009900";
+					context.fillStyle = "#00FF00";
+				} else {
+					context.strokeStyle = "#555555";
+					context.fillStyle = "#CCCCCC";
+				}
+
+				//round = Math.log10(Math.floor(Math.pow(round,10)));
+				//console.log(round);
+				
+				if(last < round){
+					context.beginPath();
+					context.moveTo(
+						i+0.5,
+						0
+					);
+					context.lineTo(
+						i+0.5,
+						y
+					);
+					context.stroke();
+
+					var freqText = Math.pow(exponent, round);
+					
+					if(freqText >= 100000){
+						freqText = Math.round(freqText/1000);
+						freqText += "k";
+					} else if(freq >= 10000){
+						freqText = Math.round(freqText/100)/10;
+						freqText += "k";
+					} else if(freq >= 1000){
+						freqText = Math.round(freqText/10)/100;
+						freqText += "k";
+					} else if(freq >= 100){
+						freqText = Math.round(freqText);
+					} else if(freq >= 10){
+						freqText = Math.round(freqText);
+					} else {
+						freqText = Math.round(freqText*10)/10;
+					}
+
+					context.fillText(
+						freqText,
+						i+0.5-1,
+						y+3
+					);
+				}
+
+				last = round;
+				
+			}
+			
+			
+			/*var majorLinesEvery = 25;
 			var minorLinesEvery = 5;
 
 			context.lineWidth = 1;
@@ -184,14 +295,16 @@ function toneGen(){
 			var highest = frequency + (gauge.width/2)*hzPerPixel;
 			var span = highest-lowest;
 
-			var lowestLabel = Math.floor(lowest/majorLinesEvery)*majorLinesEvery;
+			var lowestLabel = Math.floor(lowest/majorLinesEvery)*majorLinesEvery;*/
+			
 			//console.log(lowestLabel);
 
 			//console.log(lowest, highest, span);
 			
 			//var minorLinesEvery = hzPerPixel/2;
 
-			for(var i = 0; i <= span/minorLinesEvery + majorLinesEvery/minorLinesEvery; i++){
+
+			/*for(var i = 0; i <= span/minorLinesEvery + majorLinesEvery/minorLinesEvery; i++){
 
 				var freq = lowestLabel + i*(minorLinesEvery);
 
@@ -272,7 +385,7 @@ function toneGen(){
 					y+3
 				);
 				
-			}
+			}*/
 
 			context.beginPath();
 			context.moveTo(
