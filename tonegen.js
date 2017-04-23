@@ -10,7 +10,7 @@ function toneGen(){
 		return false;
 	}
 
-	var frequencySlider = document.getElementById("frequency");
+	var frequencyInput = document.getElementById("frequencyText");
 	var volumeSlider = document.getElementById("volume");
 	var muteButton = document.getElementById("mute");
 	var startButton = document.getElementById("startButton");
@@ -41,16 +41,12 @@ function toneGen(){
 
 	function initUi(){
 
-		frequencySlider.value = frequency;
+		initFrequencyGauge();
+
 		volumeSlider.value = Math.sqrt(volume);
 		updateMuteButton();
 
 		initWaveInputs();
-
-		frequencySlider.addEventListener("input", function(e){
-			frequency = this.value;
-			oscillator.frequency.value = frequency;
-		});
 
 		volumeSlider.addEventListener("input", function(e){
 			volume = Math.pow(this.value, 2);
@@ -88,7 +84,6 @@ function toneGen(){
 		});
 
 		function updateMuteButton(){
-			console.log(volume);
 			var volumeImg = document.getElementById("volumeImg");
 			var muteImg = document.getElementById("muteImg");
 
@@ -129,6 +124,174 @@ function toneGen(){
 			
 		}
 
+		function initFrequencyGauge(){
+			var hzPerPixel = 1;
+			
+			updateFrequencyGauge(hzPerPixel);
+			var dragging = false;
+			var startX = 0;
+			var startFreq = 0;
+
+			frequencyInput.addEventListener("input", function(e){
+				frequency = parseFloat(this.value);
+				frequency = Math.max(Math.min(frequency, 24000), 0);
+				
+				updateFrequencyGauge(hzPerPixel);
+				oscillator.frequency.value = frequency;
+			});
+
+			frequencyGauge.addEventListener("mousedown", function(e){
+				dragging = true;
+				startX = e.clientX;
+				startFreq = frequency;
+			});
+
+			window.addEventListener("mousemove", function(e){
+				if(dragging){
+					var offset = startX - e.clientX;
+					
+					frequency = Math.max(Math.min(startFreq + offset, 24000), 0);
+					updateFrequencyGauge(hzPerPixel);
+					oscillator.frequency.value = frequency;
+
+					e.preventDefault();
+					return false;
+				}
+			});
+
+			window.addEventListener("mouseup", function(e){
+				dragging = false;
+			});
+
+		}
+
+		function updateFrequencyGauge(hzPerPixel){
+
+			frequencyInput.value = frequency;
+			
+			var gauge = document.getElementById("frequencyGauge");
+			var context = gauge.getContext("2d");
+
+			context.clearRect(0, 0, gauge.width, gauge.height);
+			
+			var majorLinesEvery = 25;
+			var minorLinesEvery = 5;
+
+			context.lineWidth = 1;
+			context.strokeStyle = "#555555";
+
+			var lowest = frequency - (gauge.width/2)*hzPerPixel;
+			var highest = frequency + (gauge.width/2)*hzPerPixel;
+			var span = highest-lowest;
+
+			var lowestLabel = Math.floor(lowest/majorLinesEvery)*majorLinesEvery;
+			//console.log(lowestLabel);
+
+			//console.log(lowest, highest, span);
+			
+			//var minorLinesEvery = hzPerPixel/2;
+
+			for(var i = 0; i <= span/minorLinesEvery + majorLinesEvery/minorLinesEvery; i++){
+
+				var freq = lowestLabel + i*(minorLinesEvery);
+
+				if(freq < 0 || freq > 24000){
+					continue;
+				}
+				
+				var x = ~~((freq-frequency)/hzPerPixel + gauge.width/2)+0.5;
+
+				//console.log(i, freq, x);
+				
+				context.beginPath();
+				context.moveTo(
+					x,
+					0
+				);
+				context.lineTo(
+					x,
+					15
+				);
+				context.stroke();
+				
+			}
+
+			context.strokeStyle = "#777777";
+			context.fillStyle = "#CCCCCC";
+
+			context.textAlign = "center";
+			context.textBaseline = "hanging";
+			context.font = "10px monospace";
+
+			for(var i = 0; i <= span/majorLinesEvery + 1; i++){
+
+				var y = 20;
+
+				var freq = lowestLabel + i*(majorLinesEvery);
+
+				//console.log(freq);
+
+				if(freq%(2*majorLinesEvery) == 0){
+					y = 35;
+				}
+
+				if(freq < 0 || freq > 24000){
+					continue;
+				}
+				
+				var x = ~~((freq-frequency)/hzPerPixel + gauge.width/2)+0.5;
+
+				//console.log(i, freq, x);
+				
+				context.beginPath();
+				context.moveTo(
+					x,
+					0
+				);
+				context.lineTo(
+					x,
+					y
+				);
+				context.stroke();
+
+				var freqText = freq;
+				if(freq >= 100000){
+					freqText = Math.round(freq/1000);
+					freqText += "k";
+				} else if(freq >= 10000){
+					freqText = Math.round(freq/100)/10;
+					freqText += "k";
+				} else if(freq >= 1000){
+					freqText = Math.round(freq/10)/100;
+					freqText += "k";
+				}
+
+				context.fillText(
+					freqText,
+					x-1,
+					y+3
+				);
+				
+			}
+
+			context.beginPath();
+			context.moveTo(
+				~~(gauge.width/2)+0.5,
+				0
+			);
+			context.lineTo(
+				~~(gauge.width/2)+0.5,
+				gauge.height
+			);
+			context.lineWidth = 1;
+			context.strokeStyle = "#00FF00";
+			context.stroke();
+		}
+
+	}
+
+	function getNoteFromFrequency(freq){
+		
 	}
 
 }

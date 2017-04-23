@@ -272,7 +272,37 @@ h1{
 	width: 34px;
 }
 
+#frequencyControls{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin-left: 10px;
+}
 
+#frequencyGauge{
+	background-color: #333333;
+	cursor: col-resize;
+}
+
+#frequencyControls > input{
+	text-align: center;
+	background-color: #444444;
+	color: #FFFFFF;
+	border: none;
+	padding: 9px 0px;
+	margin: 3px 0px;
+}
+
+#frequencyControls > input:hover{
+	border: 1px #777777 solid;
+	padding: 8px 0px;
+}
+
+#frequencyControls > input:focus{
+	border: 1px #777777 solid;
+	padding: 8px 0px;
+	background-color: #333333;
+}
 
 
 
