@@ -36,6 +36,7 @@ function toneGen(){
 	}
 
 	var analyser = audio.createAnalyser();
+	//analyser.smoothingTimeConstant = 1;
 
 	audio.suspend();
 	oscillator.connect(gain);
@@ -147,17 +148,22 @@ function toneGen(){
 		}
 	}
 
+	var lastTime = 0;
+	var startTime = audio.currentTime;
+	var lastFrequency = 0;
+
+	console.log(audio);
+
 
 	function renderScope(){
 
-		var size = Math.pow(2, Math.ceil(Math.log2((1/frequency)*100000)));
+		var size = Math.pow(2, Math.ceil(Math.log2((1/frequency)*100000))) * 2;
 		analyser.fftSize = Math.min(Math.max(32, size), 32768);
 		var bufferLength = analyser.frequencyBinCount;
 		var analyserData = new Uint8Array(bufferLength);
 
 		if(size != lastSize){
 			renderScopeBackground(bufferLength);
-			console.log("foo!");
 			lastSize = size;
 		}
 
@@ -165,11 +171,46 @@ function toneGen(){
 		
 		scopeContext.clearRect(0, 0, scopeCanvas.width, scopeCanvas.height);
 
-		var sliceWidth = scopeCanvas.width * 1.0 / bufferLength;
+		var now = audio.currentTime;
+
+		/*if(lastTime){
+			var timeSinceLastFrame = now-lastTime;
+			var samplesSinceLastFrame = Math.round(timeSinceLastFrame*audio.sampleRate);
+			//console.log(timeSinceLastFrame*1000);
+			var oscillationsSinceLastFrame = timeSinceLastFrame * frequency;
+			console.log(Math.round(oscillationsSinceLastFrame) - oscillationsSinceLastFrame);
+		}*/
+
+		if(frequency != lastFrequency){
+			startTime = audio.currentTime;
+			lastFrequency = frequency;
+		}
+		
+		var timeSinceStart = now-startTime;
+		var samplesSinceLastFrame = Math.round(timeSinceStart*audio.sampleRate);
+		//console.log(timeSinceLastFrame*1000);
+		var waveOffset = timeSinceStart * frequency;
+		waveOffset = Math.ceil(waveOffset) - waveOffset;
+		var waveOffsetSamples = (waveOffset/frequency)*audio.sampleRate;
+		//console.log(waveOffsetSamples);
+
+		lastTime = now;
+
+		var sliceWidth = scopeCanvas.width * 1.0 / (bufferLength/2);
+
 		var x = 0;
+		
+		if(audio.sampleRate/frequency < bufferLength/2){
+			var x = 0 - (scopeCanvas.width/(bufferLength/2))*waveOffsetSamples;
+			console.log("not foo");
+		} else {
+			console.log("foo");
+		}
 
 		scopeContext.beginPath();
 		for (var i = 0; i < bufferLength; i++) {
+
+			//var s = i - waveOffsetSamples;
 
 			var v = analyserData[i] / 128.0;
 			var y = v * scopeCanvas.height / 2;
