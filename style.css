@@ -212,7 +212,7 @@ h1{
 	text-shadow: 1px 1px 0px #000000;
 	padding-bottom: 7px;
 
-	animation-duration: 1s;
+	animation-duration: 2s;
 	animation-name: ridiculouslyFancyStartButtonAnimationImeanSeriouslyLookAtThisShit;
 	animation-timing-function: linear;
 }
@@ -220,6 +220,10 @@ h1{
 @keyframes ridiculouslyFancyStartButtonAnimationImeanSeriouslyLookAtThisShit{
 
 	0% {
+		box-shadow: 0px 0px 0px rgba(255, 255, 255, 0.4);
+	}
+
+	10% {
 		box-shadow: 0px 0px 30px rgba(255, 255, 255, 0.4);
 	}
 
@@ -234,11 +238,11 @@ h1{
 }
 
 #startButton.stop{
-	background-image: linear-gradient(to bottom, #883333, #662222);
+	background-image: linear-gradient(to bottom, #666666, #555555);
 }
 
 #startButton.stop:hover{
-	background-image: linear-gradient(to bottom, #CC5555, #884444);
+	background-image: linear-gradient(to bottom, #777777, #666666);
 }
 
 #volumeContainer{
@@ -281,6 +285,8 @@ h1{
 
 #gaugeContainer{
 	width: 300px;
+	height: 60px;
+	border: 1px #000000 solid;
 	overflow: hidden;
 	background-color: #333333;
 	cursor: col-resize;
@@ -315,10 +321,10 @@ h1{
 }
 
 #frequencyText{
-	text-align: right;
+	text-align: center;
 	background-color: #444444;
 	color: #FFFFFF;
-	border: 1px #333333 solid;
+	border: 1px #000000 solid;
 	background-color: #555555;
 	padding: 8px 3px;
 	height: 25px;
@@ -326,7 +332,7 @@ h1{
 }
 
 #frequencyText:hover{
-	border: 1px #777777 solid;
+	background-color: #666666;
 }
 
 
