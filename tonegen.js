@@ -12,6 +12,7 @@ function toneGen(){
 
 	var frequencyInput = document.getElementById("frequencyText");
 	var volumeSlider = document.getElementById("volume");
+	var panSlider = document.getElementById("pan");
 	var muteButton = document.getElementById("mute");
 	var startButton = document.getElementById("startButton");
 
@@ -19,6 +20,7 @@ function toneGen(){
 	var playing = false;
 	var frequency = 440;
 	var volume = Math.pow(0.3, 2);
+	var pan = 0;
 	var wave = "sine"
 
 	initUi();
@@ -35,12 +37,16 @@ function toneGen(){
 		gain.gain.value = 0;
 	}
 
+	var panner = audio.createPanner();
+	panner.setPosition(Math.sin(pan), 0, Math.cos(pan));
+
 	var analyser = audio.createAnalyser();
 	//analyser.smoothingTimeConstant = 1;
 
 	audio.suspend();
 	oscillator.connect(gain);
-	gain.connect(analyser);
+	gain.connect(panner);
+	panner.connect(analyser);
 	analyser.connect(audio.destination);
 
 	var scopeCanvas = document.getElementById("scopeCanvas");
@@ -246,6 +252,11 @@ function toneGen(){
 			gain.gain.value = volume;
 			muted = false;
 			updateMuteButton();
+		});
+
+		panSlider.addEventListener("input", function(e){
+			pan = this.value;
+			panner.setPosition(Math.sin(pan), 0, Math.cos(pan));
 		});
 
 		muteButton.addEventListener("click", function(e){

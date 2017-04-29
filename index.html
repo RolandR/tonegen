@@ -11,69 +11,80 @@
 
 		<h1>Tone Generator</h1>
 
-		<div class="generator">
+		<div class="generatorContainer">
+			<div class="generator">
 
-			<div id="mainControls">
-				<button id="startButton">
-					<span>Start</span>
-				</button>
-				
-				<div id="volumeContainer">
-					<button id="mute">
-						<image id="volumeImg" src="./img/volume-full.svg" alt="">
-						<image id="muteImg"   src="./img/volume-muter.svg" alt="">
+				<div id="mainControls">
+					<button id="startButton">
+						<span>Start</span>
 					</button>
-					<input type="range" min="0" max="1" step="0.01" id="volume">
-				</div>
-			</div>
-
-			<div id="waveControls">
-				<h2>Waveform</h2>
-				<div class="fancyRadio" id="waveformSelect">
-					<input class="fancyRadio" type="radio" value="sine" name="colorToHighlight" id="wave-sine" checked>
-					<label class="fancyRadio" for="wave-sine">
-						<img src="./img/sine.svg" alt="Sine" title="Sine wave">
-						<span>Sine</span>
-					</label>
-					<input class="fancyRadio" type="radio" value="square" name="colorToHighlight" id="wave-square">
-					<label class="fancyRadio" for="wave-square">
-						<img src="./img/square.svg" alt="Square" title="Square wave">
-						<span>Square</span>
-					</label>
-					<input class="fancyRadio" type="radio" value="sawtooth" name="colorToHighlight" id="wave-sawtooth">
-					<label class="fancyRadio" for="wave-sawtooth">
-						<img src="./img/sawtooth.svg" alt="Sawtooth" title="Sawtooth wave">
-						<span>Sawtooth</span>
-					</label>
-					<input class="fancyRadio" type="radio" value="triangle" name="colorToHighlight" id="wave-triangle">
-					<label class="fancyRadio" for="wave-triangle">
-						<img src="./img/triangle.svg" alt="Triangle" title="Triangle wave">
-						<span>Triangle</span>
-					</label>
-				</div>
-			</div>
-
-			<div>
-				<h2>Frequency</h2>
-				<div id="frequencyControls">
-					<div id="gaugeContainer">
-						<canvas id="frequencyGauge" height="60" width="1000"></canvas>
-						<div id="frequencyMarker"></div>
+					
+					<div id="volumeContainer">
+						<button id="mute">
+							<image id="volumeImg" src="./img/volume-full.svg" alt="">
+							<image id="muteImg"   src="./img/volume-muter.svg" alt="">
+						</button>
+						<input type="range" min="0" max="1" step="0.01" id="volume">
 					</div>
-					<div id="frequencyTextContainer">
-						<input type="text" step="1" id="frequencyText">
-						<span id="hertzLabel"> Hz</span>
+					<div id="pannerContainer">
+						<span>L</span>
+						<input type="range" min="-1.57" max="1.57" step="0.01" id="pan">
+						<span>R</span>
 					</div>
 				</div>
-			</div>
 
-			<div>
-				<h2>Scope</h2>
-				<canvas id="scopeCanvas" height="200" width="200"></canvas>
-				<canvas id="scopeBackground" height="200" width="200"></canvas>
-			</div>
+				<div id="waveControls">
+					<h2>Waveform</h2>
+					<div class="fancyRadio" id="waveformSelect">
+						<input class="fancyRadio" type="radio" value="sine" name="colorToHighlight" id="wave-sine" checked>
+						<label class="fancyRadio" for="wave-sine">
+							<img src="./img/sine.svg" alt="Sine" title="Sine wave">
+							<span>Sine</span>
+						</label>
+						<input class="fancyRadio" type="radio" value="square" name="colorToHighlight" id="wave-square">
+						<label class="fancyRadio" for="wave-square">
+							<img src="./img/square.svg" alt="Square" title="Square wave">
+							<span>Square</span>
+						</label>
+						<input class="fancyRadio" type="radio" value="sawtooth" name="colorToHighlight" id="wave-sawtooth">
+						<label class="fancyRadio" for="wave-sawtooth">
+							<img src="./img/sawtooth.svg" alt="Sawtooth" title="Sawtooth wave">
+							<span>Sawtooth</span>
+						</label>
+						<input class="fancyRadio" type="radio" value="triangle" name="colorToHighlight" id="wave-triangle">
+						<label class="fancyRadio" for="wave-triangle">
+							<img src="./img/triangle.svg" alt="Triangle" title="Triangle wave">
+							<span>Triangle</span>
+						</label>
+					</div>
+				</div>
 
-			
+				<div>
+					<h2>Frequency</h2>
+					<div id="frequencyControls">
+						<div id="gaugeContainer">
+							<canvas id="frequencyGauge" height="60" width="1000"></canvas>
+							<div id="frequencyMarker"></div>
+						</div>
+						<div id="frequencyTextContainer">
+							<input type="text" step="1" id="frequencyText">
+							<span id="hertzLabel"> Hz</span>
+						</div>
+					</div>
+				</div>
+
+				<div>
+					<h2>Scope</h2>
+					<canvas id="scopeCanvas" height="200" width="200"></canvas>
+					<canvas id="scopeBackground" height="200" width="200"></canvas>
+				</div>
+
+				
+			</div>
+		</div>
+
+		<div id="author">
+			Code by <a href="/" target="_blank" rel="author">Roland Rytz</a>. Source on <a target="_blank" href="https://github.com/RolandR/tonegen">GitHub</a>.
 		</div>
 
 		<div id="loadImages">

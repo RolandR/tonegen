@@ -148,21 +148,35 @@ body *{
 	font-family: dejavusans, DejaVu Sans, Helvetica, sans-serif;
 }
 
+a{
+	color: #FFAA00;
+	text-decoration: none;
+}
 
-/* ============== */
+a:hover{
+	text-decoration: underline;
+}
+
+/* =========================================================================================== */
+/* =~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~= */
+/* =========================================================================================== */
 
 h1{
 	font-weight: 200;
-	padding: 0px 10px;
 	display: block;
-	height: 40px;
+	height: 50px;
+	margin: 10px 0px 0px 30px;
+}
+
+.generatorContainer{
+	display: inline-block;
+	margin: 10px 30px;
 }
 
 .generator{
 	background-color: #444444;
 	border: 1px #000000 solid;
 	padding: 10px;
-	margin: 10px;
 
 	display: flex;
 }
@@ -171,13 +185,18 @@ h1{
 	display: block;
 	border-right: 1px #999999 solid;
 	padding: 0px 10px;
-	margin-top: 30px;
+	margin-top: 0px;
+	padding-top: 40px;
+}
+
+.generator > div:last-child{
+	border-right: none;
 }
 
 .generator > div > h2{
 	display: block;
-	margin-top: -35px;
-	margin-left: -15px;
+	margin-top: -40px;
+	margin-left: 0px;
 	text-align: left;
 	font-size: 20px;
 	height: 30px;
@@ -225,7 +244,7 @@ h1{
 #startButton{
 	width: 100px;
 	height: 40px;
-	margin-bottom: 10px;
+	margin-bottom: 50px;
 	background-image: linear-gradient(to bottom, #338833, #226622);
 	font-size: 25px;
 	font-weight: 300;
@@ -266,15 +285,29 @@ h1{
 	background-image: linear-gradient(to bottom, #777777, #666666);
 }
 
-#volumeContainer{
+#volumeContainer,
+#pannerContainer{
 	background-color: #333333;
 	display: flex;
+	height: 40px;
+	width: 200px;
+	margin-top: 10px;
 }
 
-#volumeContainer>input{
+#volumeContainer > *,
+#pannerContainer > *{
+	display: block;
+}
+
+#volumeContainer > input,
+#pannerContainer > input{
+	flex-grow: 1;
+	flex-shrink: 1;
+}
+
+#volumeContainer > input{
 	margin-right: 10px;
 	margin-left: 5px;
-	flex-grow: 1;
 }
 
 #mute{
@@ -295,6 +328,14 @@ h1{
 	left: 12px;
 	height: 34px;
 	width: 34px;
+}
+
+#pannerContainer > span{
+	display: block;
+	height: 40px;
+	width: 40px;
+	text-align: center;
+	font-size: 25px;
 }
 
 #frequencyControls{
@@ -368,7 +409,15 @@ h1{
 	border: 1px #000000 solid;
 }
 
-
+#author{
+	position: absolute;
+	bottom: 10px;
+	right: 10px;
+	background-color: #555555;
+	border: 1px #000000 solid;
+	padding: 3px 7px;
+	font-size: 14px;
+}
 
 
 
