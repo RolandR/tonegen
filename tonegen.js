@@ -208,10 +208,7 @@ function toneGen(){
 		
 		if(audio.sampleRate/frequency < bufferLength/2){
 			var x = 0 - (scopeCanvas.width/(bufferLength/2))*waveOffsetSamples;
-			console.log("not foo");
-		} else {
-			console.log("foo");
-		}
+		} 
 
 		scopeContext.beginPath();
 		for (var i = 0; i < bufferLength; i++) {
